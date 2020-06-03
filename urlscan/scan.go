@@ -2,7 +2,6 @@ package urlscan
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"github.com/pkg/errors"
@@ -71,16 +70,10 @@ func getExpWaitTime(count int) time.Duration {
 func (x *Task) WaitForReport(ctx context.Context) error {
 	maxRetry := 30
 	for i := 0; i < maxRetry; i++ {
-		code, err := x.client.get(ctx, fmt.Sprintf("result/%s", x.uuid), nil, &x.Result)
-		if err != nil {
-			return errors.Wrap(err, "Fail to get result query")
-		}
-
-		switch code {
-		case 200:
+		report, err := x.client.GetReportByUUID(ctx, x.uuid)
+		if err == nil {
+			x.Result = *report
 			return nil
-		case 400:
-			return errors.New("status: 400")
 		}
 
 		time.Sleep(getExpWaitTime(i))
@@ -357,7 +350,7 @@ type ScanMeta struct {
 				App        string `json:"app"`
 				Categories []struct {
 					Name     string `json:"name"`
-					Priority string `json:"priority"`
+					Priority int    `json:"priority"`
 				} `json:"categories"`
 				Confidence []struct {
 					Confidence interface{} `json:"confidence"`
