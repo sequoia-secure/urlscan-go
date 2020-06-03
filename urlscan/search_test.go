@@ -10,9 +10,7 @@ import (
 )
 
 func TestSearch(t *testing.T) {
-	client := urlscan.NewClient(cfg.ApiKey)
-
-	resp, err := client.Search(context.Background(), urlscan.SearchArguments{
+	resp, err := urlscan.Search(context.Background(), urlscan.SearchArguments{
 		Query: "ip:163.43.24.70",
 	})
 
@@ -22,9 +20,7 @@ func TestSearch(t *testing.T) {
 }
 
 func TestSearchSize(t *testing.T) {
-	client := urlscan.NewClient(cfg.ApiKey)
-
-	resp, err := client.Search(context.Background(), urlscan.SearchArguments{
+	resp, err := urlscan.Search(context.Background(), urlscan.SearchArguments{
 		Query: "ip:163.43.24.70",
 		Size:  1,
 	})
@@ -34,9 +30,7 @@ func TestSearchSize(t *testing.T) {
 }
 
 func TestSearchOffset(t *testing.T) {
-	client := urlscan.NewClient(cfg.ApiKey)
-
-	resp1, err := client.Search(context.Background(), urlscan.SearchArguments{
+	resp1, err := urlscan.Search(context.Background(), urlscan.SearchArguments{
 		Query:  "ip:163.43.24.70",
 		Size:   1,
 		Offset: 0,
@@ -45,7 +39,7 @@ func TestSearchOffset(t *testing.T) {
 	require.NoError(t, err)
 	assert.Equal(t, 1, len(resp1.Results))
 
-	resp2, err := client.Search(context.Background(), urlscan.SearchArguments{
+	resp2, err := urlscan.Search(context.Background(), urlscan.SearchArguments{
 		Query:  "ip:163.43.24.70",
 		Size:   1,
 		Offset: 1,

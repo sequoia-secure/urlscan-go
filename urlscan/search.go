@@ -61,7 +61,7 @@ type SearchResponse struct {
 }
 
 // Search sends query to search existing scan results with query
-func (x *Client) Search(ctx context.Context, args SearchArguments) (SearchResponse, error) {
+func Search(ctx context.Context, args SearchArguments) (SearchResponse, error) {
 	var result SearchResponse
 	values := make(url.Values)
 
