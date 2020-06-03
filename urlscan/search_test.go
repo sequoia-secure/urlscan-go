@@ -4,9 +4,9 @@ import (
 	"context"
 	"testing"
 
-	"github.com/m-mizutani/urlscan-go/urlscan"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"github.com/vertoforce/urlscan-go/urlscan"
 )
 
 func TestSearch(t *testing.T) {

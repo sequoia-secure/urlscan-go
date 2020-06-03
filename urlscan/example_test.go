@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/m-mizutani/urlscan-go/urlscan"
+	"github.com/vertoforce/urlscan-go/urlscan"
 )
 
 func ExampleClient_Submit() {
