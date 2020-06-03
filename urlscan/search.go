@@ -3,6 +3,7 @@ package urlscan
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"net/url"
 
 	"github.com/pkg/errors"
@@ -12,13 +13,13 @@ import (
 type SearchArguments struct {
 	// Optional. urlscan.io search query.
 	// See Help & Example of https://urlscan.io/search/ for more detail
-	Query *string `json:"query"`
+	Query string `json:"query"`
 	// Optional. Page size
-	Size *uint64 `json:"size"`
+	Size uint64 `json:"size"`
 	// Optional. Offset of the result
-	Offset *uint64 `json:"offset"`
+	Offset uint64 `json:"offset"`
 	// Optional. specificied via $sort_field:$sort_order. Default: _score
-	Sort *string `json:"sort"`
+	Sort string `json:"sort"`
 }
 
 // SearchResult represents a single search result from the API
@@ -64,20 +65,20 @@ func (x *Client) Search(ctx context.Context, args SearchArguments) (SearchRespon
 	var result SearchResponse
 	values := make(url.Values)
 
-	if args.Query != nil {
-		values.Add("q", *args.Query)
+	if args.Query != "" {
+		values.Add("q", args.Query)
 	}
-	if args.Size != nil {
-		values.Add("size", fmt.Sprintf("%d", *args.Size))
+	if args.Size != 0 {
+		values.Add("size", fmt.Sprintf("%d", args.Size))
 	}
-	if args.Offset != nil {
-		values.Add("offset", fmt.Sprintf("%d", *args.Offset))
+	if args.Offset != 0 {
+		values.Add("offset", fmt.Sprintf("%d", args.Offset))
 	}
-	if args.Sort != nil {
-		values.Add("sort", *args.Sort)
+	if args.Sort != "" {
+		values.Add("sort", args.Sort)
 	}
 
-	code, err := x.get(ctx, "search", values, &result)
+	code, err := req(ctx, http.MethodGet, &values, "search", nil, &result, "")
 	if err != nil {
 		return result, err
 	}

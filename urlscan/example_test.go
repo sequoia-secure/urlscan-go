@@ -29,9 +29,9 @@ func ExampleClient_Search() {
 	client := urlscan.NewClient("YOUR-API-KEY")
 
 	resp, err := client.Search(context.Background(), urlscan.SearchArguments{
-		Query:  urlscan.String("ip:1.2.3.x"),
-		Size:   urlscan.Uint64(1),
-		Offset: urlscan.Uint64(0),
+		Query:  "ip:1.2.3.x",
+		Size:   1,
+		Offset: 0,
 	})
 
 	if err != nil {

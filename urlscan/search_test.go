@@ -13,7 +13,7 @@ func TestSearch(t *testing.T) {
 	client := urlscan.NewClient(cfg.ApiKey)
 
 	resp, err := client.Search(context.Background(), urlscan.SearchArguments{
-		Query: urlscan.String("ip:163.43.24.70"),
+		Query: "ip:163.43.24.70",
 	})
 
 	require.NoError(t, err)
@@ -25,8 +25,8 @@ func TestSearchSize(t *testing.T) {
 	client := urlscan.NewClient(cfg.ApiKey)
 
 	resp, err := client.Search(context.Background(), urlscan.SearchArguments{
-		Query: urlscan.String("ip:163.43.24.70"),
-		Size:  urlscan.Uint64(1),
+		Query: "ip:163.43.24.70",
+		Size:  1,
 	})
 
 	require.NoError(t, err)
@@ -37,18 +37,18 @@ func TestSearchOffset(t *testing.T) {
 	client := urlscan.NewClient(cfg.ApiKey)
 
 	resp1, err := client.Search(context.Background(), urlscan.SearchArguments{
-		Query:  urlscan.String("ip:163.43.24.70"),
-		Size:   urlscan.Uint64(1),
-		Offset: urlscan.Uint64(0),
+		Query:  "ip:163.43.24.70",
+		Size:   1,
+		Offset: 0,
 	})
 
 	require.NoError(t, err)
 	assert.Equal(t, 1, len(resp1.Results))
 
 	resp2, err := client.Search(context.Background(), urlscan.SearchArguments{
-		Query:  urlscan.String("ip:163.43.24.70"),
-		Size:   urlscan.Uint64(1),
-		Offset: urlscan.Uint64(1),
+		Query:  "ip:163.43.24.70",
+		Size:   1,
+		Offset: 1,
 	})
 
 	require.NoError(t, err)

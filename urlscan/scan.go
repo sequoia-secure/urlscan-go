@@ -2,6 +2,7 @@ package urlscan
 
 import (
 	"context"
+	"net/http"
 	"time"
 
 	"github.com/pkg/errors"
@@ -36,7 +37,7 @@ func (x *Client) Submit(ctx context.Context, args SubmitArguments) (Task, error)
 	}
 
 	var result submitResponse
-	code, err := x.post(ctx, "scan", args, &result)
+	code, err := req(ctx, http.MethodPost, nil, "scan", args, &result, x.apiKey)
 	if err != nil {
 		return task, err
 	}
@@ -66,11 +67,11 @@ func getExpWaitTime(count int) time.Duration {
 	return time.Millisecond * time.Duration(d)
 }
 
-// Wait tries to retrieve a result. If scan is not still completed, it retries up to 30 times
+// WaitForReport tries to retrieve a result. If scan is not still completed, it retries up to 30 times
 func (x *Task) WaitForReport(ctx context.Context) error {
 	maxRetry := 30
 	for i := 0; i < maxRetry; i++ {
-		report, err := x.client.GetReportByUUID(ctx, x.uuid)
+		report, err := GetReportByUUID(ctx, x.uuid)
 		if err == nil {
 			x.Result = *report
 			return nil

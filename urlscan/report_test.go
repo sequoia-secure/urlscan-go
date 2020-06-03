@@ -6,8 +6,7 @@ import (
 )
 
 func TestGetReportByUUID(t *testing.T) {
-	c := NewClient("")
-	report, err := c.GetReportByUUID(context.Background(), "8c23ec03-64b2-442a-8db7-86681049f17e")
+	report, err := GetReportByUUID(context.Background(), "8c23ec03-64b2-442a-8db7-86681049f17e")
 	if err != nil {
 		t.Error(err)
 		return

@@ -3,14 +3,15 @@ package urlscan
 import (
 	"context"
 	"fmt"
+	"net/http"
 
 	"github.com/pkg/errors"
 )
 
 // GetReportByUUID Gets a urlscan report by the task uuid
-func (x *Client) GetReportByUUID(ctx context.Context, uuid string) (*ScanResult, error) {
+func GetReportByUUID(ctx context.Context, uuid string) (*ScanResult, error) {
 	result := &ScanResult{}
-	code, err := x.get(ctx, fmt.Sprintf("result/%s", uuid), nil, &result)
+	code, err := req(ctx, http.MethodGet, nil, fmt.Sprintf("result/%s", uuid), nil, result, "")
 	if err != nil {
 		return nil, errors.Wrap(err, "Fail to get result query")
 	}
