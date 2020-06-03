@@ -64,7 +64,7 @@ func req(ctx context.Context, method string, values *url.Values, apiName string,
 
 	resp, err := client.Do(req)
 	if err != nil {
-		return resp.StatusCode, errors.Wrap(err, "Fail to send urlscan.io POST request")
+		return 0, errors.Wrap(err, "Fail to send urlscan.io POST request")
 	}
 
 	defer resp.Body.Close()
