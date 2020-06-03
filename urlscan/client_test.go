@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"github.com/m-mizutani/urlscan-go/urlscan"
-	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/require"
 )
 
@@ -21,9 +20,6 @@ func init() {
 	if cfg.ApiKey == "" {
 		log.Fatal("no API KEY, environment variable URLSCAN_API_KEY is required.")
 	}
-
-	urlscan.Logger = logrus.New()
-	urlscan.Logger.SetLevel(logrus.InfoLevel)
 }
 
 func TestSubmitScan(t *testing.T) {

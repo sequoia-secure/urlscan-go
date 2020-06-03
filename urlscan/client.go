@@ -9,20 +9,7 @@ import (
 	"net/url"
 
 	"github.com/pkg/errors"
-	"github.com/sirupsen/logrus"
 )
-
-// Logger is a logrus logger. You can replace the logger with yours or change setting if you need.
-var Logger = logrus.New()
-
-func init() {
-	Logger.SetLevel(logrus.PanicLevel)
-	Logger.SetFormatter(&logrus.TextFormatter{
-		DisableColors: false,
-		FullTimestamp: true,
-	})
-	Logger.SetReportCaller(true)
-}
 
 // String converts string variable and literal to pointer
 func String(s string) *string {
@@ -57,10 +44,6 @@ func (x Client) post(apiName string, input interface{}, output interface{}) (int
 	}
 
 	uri := fmt.Sprintf("%s/%s/", x.BaseURL, apiName)
-	Logger.WithFields(logrus.Fields{
-		"uri":  uri,
-		"body": string(rawData),
-	}).Debug("Generated Query")
 
 	client := &http.Client{}
 	req, err := http.NewRequest("POST", uri, bytes.NewReader(rawData))
@@ -81,12 +64,6 @@ func (x Client) post(apiName string, input interface{}, output interface{}) (int
 	if err != nil {
 		return resp.StatusCode, errors.Wrap(err, "Fail to read urlscan.io POST result")
 	}
-	if resp.StatusCode != 200 {
-		Logger.WithFields(logrus.Fields{
-			"body": string(buf),
-			"code": resp.StatusCode,
-		}).Warn("Unexpected status code")
-	}
 
 	err = json.Unmarshal(buf, &output)
 	if err != nil {
@@ -103,7 +80,6 @@ func (x Client) get(apiName string, values url.Values, output interface{}) (int,
 	}
 
 	uri := fmt.Sprintf("%s/%s/%s", x.BaseURL, apiName, qs)
-	Logger.WithField("uri", uri).Info("Generated Query")
 
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", uri, nil)
@@ -119,13 +95,6 @@ func (x Client) get(apiName string, values url.Values, output interface{}) (int,
 	buf, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return resp.StatusCode, errors.Wrap(err, "Fail to read urlscan.io get result")
-	}
-
-	if resp.StatusCode != 200 && resp.StatusCode != 404 {
-		Logger.WithFields(logrus.Fields{
-			"body": string(buf),
-			"code": resp.StatusCode,
-		}).Warn("Unexpected status code")
 	}
 
 	err = json.Unmarshal(buf, &output)
