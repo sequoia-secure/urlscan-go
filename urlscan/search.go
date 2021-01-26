@@ -60,8 +60,17 @@ type SearchResponse struct {
 	Total   int64          `json:"total"`
 }
 
+// Submit sends a request of sandbox execution for specified URL.
+func (x *Client) Search(ctx context.Context, args SearchArguments) (SearchResponse, error) {
+	return doSearch(ctx, args, x.apiKey)
+}
+
 // Search sends query to search existing scan results with query
 func Search(ctx context.Context, args SearchArguments) (SearchResponse, error) {
+	return doSearch(ctx, args, "")
+}
+
+func doSearch(ctx context.Context, args SearchArguments, apiKey string) (SearchResponse, error) {
 	var result SearchResponse
 	values := make(url.Values)
 
@@ -78,7 +87,7 @@ func Search(ctx context.Context, args SearchArguments) (SearchResponse, error) {
 		values.Add("sort", args.Sort)
 	}
 
-	code, err := req(ctx, http.MethodGet, &values, "search", nil, &result, "")
+	code, err := req(ctx, http.MethodGet, &values, "search", nil, &result, apiKey)
 	if err != nil {
 		return result, err
 	}

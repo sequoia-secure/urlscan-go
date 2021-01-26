@@ -32,7 +32,8 @@ func NewClient(apiKey string) Client {
 }
 
 // req Make a request and fill an output structure
-// apiKey is only required for POST requests, otherwise it can be blank
+// apiKey is only required for POST requests, otherwise it can be blank but you will
+// not be able to search against your private scans
 func req(ctx context.Context, method string, values *url.Values, apiName string, input interface{}, output interface{}, apiKey string) (int, error) {
 	body := &bytes.Buffer{}
 	if input != nil {
@@ -59,6 +60,9 @@ func req(ctx context.Context, method string, values *url.Values, apiName string,
 	// Add headers if we are posting
 	if method == http.MethodPost {
 		req.Header.Add("Content-Type", "application/json")
+	}
+
+	if apiKey != "" {
 		req.Header.Add("API-Key", apiKey)
 	}
 
