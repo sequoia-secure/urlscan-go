@@ -1,6 +1,6 @@
-module github.com/vertoforce/urlscan-go
+module github.com/sequoiacapital/urlscan-go
 
-go 1.14
+go 1.15
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
