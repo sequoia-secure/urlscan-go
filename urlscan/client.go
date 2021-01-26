@@ -6,8 +6,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
+	"net/http/httputil"
 	"net/url"
+	"os"
 
 	"github.com/pkg/errors"
 )
@@ -64,6 +67,16 @@ func req(ctx context.Context, method string, values *url.Values, apiName string,
 
 	if apiKey != "" {
 		req.Header.Add("API-Key", apiKey)
+	}
+
+	_, debug := os.LookupEnv("DEBUG")
+
+	dump2, err := httputil.DumpRequestOut(req, debug)
+	if err != nil {
+		log.Fatal(err)
+	}
+	if debug {
+		fmt.Printf("URLSCAN: %q\n\n", dump2)
 	}
 
 	resp, err := client.Do(req)
