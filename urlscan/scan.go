@@ -106,10 +106,17 @@ type ScanVerdicts struct {
 type ScanVerdict struct {
 	Score            int64    `json:"score"`
 	Categories       []string `json:"categories`
-	Brands           []string `json:"brands"`
+	Brands           []Brand  `json:"brands"`
 	Tags             []string `json:"tags"`
 	DetectionDetails []string `json:"detectionDetails`
 	Malicious        bool     `json:"malicious"`
+}
+
+type Brand struct {
+	Key      string   `json:"key"`
+	Name     string   `json:"name"`
+	Country  []string `json:"country"`
+	Vertical []string `json:"vertical"`
 }
 
 // ScanGeo presents GeoLocation information
