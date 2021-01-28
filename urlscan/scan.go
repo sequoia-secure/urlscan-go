@@ -105,7 +105,7 @@ type ScanVerdicts struct {
 // ScanVerdicts presents Verdict information
 type ScanVerdict struct {
 	Score            int64    `json:"score"`
-	Categories       []string `json:"categories`
+	Categories       []string `json:"categories"`
 	Brands           []Brand  `json:"brands"`
 	Tags             []string `json:"tags"`
 	DetectionDetails []string `json:"detectionDetails`
