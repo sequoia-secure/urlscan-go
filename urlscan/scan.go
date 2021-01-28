@@ -89,12 +89,27 @@ func (x *Task) WaitForReport(ctx context.Context) error {
 
 // ScanResult of a root data structure of scan result.
 type ScanResult struct {
-	Data  ScanData  `json:"data"`
-	Lists ScanLists `json:"lists"`
-	Meta  ScanMeta  `json:"meta"`
-	Page  ScanPage  `json:"page"`
-	Stats ScanStats `json:"stats"`
-	Task  ScanTask  `json:"task"`
+	Data     ScanData     `json:"data"`
+	Lists    ScanLists    `json:"lists"`
+	Meta     ScanMeta     `json:"meta"`
+	Page     ScanPage     `json:"page"`
+	Stats    ScanStats    `json:"stats"`
+	Task     ScanTask     `json:"task"`
+	Verdicts ScanVerdicts `json:"verdicts"`
+}
+
+type ScanVerdicts struct {
+	Urlscan ScanVerdict `json:urlscan`
+}
+
+// ScanVerdicts presents Verdict information
+type ScanVerdict struct {
+	Score            int64    `json:"score"`
+	Categories       []string `json:"categories`
+	Brands           []string `json:"brands"`
+	Tags             []string `json:"tags"`
+	DetectionDetails []string `json:"detectionDetails`
+	Malicious        bool     `json:"malicious"`
 }
 
 // ScanGeo presents GeoLocation information
